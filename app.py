@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ---------- VIDEO BACKGROUND ----------
-video_url = "https://youtu.be/wKjIYlaSnEA"  # replace with your own mp4 link
+video_url = "https://streamable.com/dvx0hj"  # replace with your own mp4 link
 
 st.markdown(
     f"""
@@ -41,4 +41,5 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
