@@ -37,10 +37,10 @@ for friend in friends:
         sst = round(price * SST_RATE, 2)
         final_price = round(price + service_charge + sst, 2)
 
-            friend['orders'].append({
-                "name": item_name,
-                "quantity": qty,
-                "final_price": final_price
+        friend['orders'].append({
+            "name": item_name,
+            "quantity": qty,
+            "final_price": final_price
             })
 
 # ---------- RECEIPTS ----------
@@ -63,6 +63,7 @@ for friend in friends:
 
 st.header("💰 Overall Total")
 st.write(f"**RM {overall_total:.2f}**")
+
 
 
 
