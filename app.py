@@ -26,7 +26,7 @@ menu = {
 
 st.title("🍔 Restaurant Order App")
 
-# ---------- SESSION STATE ----------
+# ---------- SESSION INIT ----------
 if "step" not in st.session_state:
     st.session_state.step = 0
 
@@ -56,63 +56,68 @@ elif st.session_state.step == 1:
         )
 
     if st.button("Start Ordering"):
-        if all(p["name"].strip() != "" for p in st.session_state.persons):
+        if all(p["name"].strip() for p in st.session_state.persons):
             st.session_state.step = 2
             st.rerun()
         else:
             st.warning("Please enter all names.")
 
-# ---------- STEP 3 ----------
+# ---------- STEP 3 (ORDERING) ----------
 elif st.session_state.step == 2:
 
     person = st.session_state.persons[st.session_state.current_person]
     st.header(f"Ordering for {person['name']}")
 
-    if "selected_items" not in st.session_state:
-        st.session_state.selected_items = {}
-
-    if person["name"] not in st.session_state.selected_items:
-        st.session_state.selected_items[person["name"]] = []
-
     cols = st.columns(2)
-    index = 0
 
-    for item_name, item_data in menu.items():
+    for idx, (item_name, item_data) in enumerate(menu.items()):
 
-        selected = item_name in st.session_state.selected_items[person["name"]]
+        with cols[idx % 2]:
 
-        with cols[index % 2]:
+            selected = any(o["name"] == item_name for o in person["orders"])
 
-            style = "opacity:0.4;" if selected else ""
+            # Display image (grey if selected)
+            if selected:
+                st.markdown(
+                    f"""
+                    <img src="{item_data['image']}"
+                    style="width:100%; border-radius:15px; opacity:0.4;">
+                    """,
+                    unsafe_allow_html=True
+                )
+            else:
+                st.image(item_data["image"], use_container_width=True)
 
-            clicked = st.markdown(
-                f"""
-                <div style="text-align:center;">
-                    <img src="{item_data['image']}" 
-                         style="width:100%; border-radius:12px; cursor:pointer; {style}">
-                    <p><b>{item_name}</b><br>RM {item_data['price']}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            st.caption(f"{item_name} — RM {item_data['price']}")
 
-            if st.button(f"Select {item_name}", key=f"{person['name']}_{item_name}"):
+            # Invisible button used as image click
+            if st.button(
+                " ",
+                key=f"{person['name']}_{item_name}",
+                use_container_width=True
+            ):
 
-                service_charge = item_data["price"] * SERVICE_CHARGE_RATE
-                sst = item_data["price"] * SST_RATE
-                final_price = item_data["price"] + service_charge + sst
+                if selected:
+                    # Deselect
+                    person["orders"] = [
+                        o for o in person["orders"]
+                        if o["name"] != item_name
+                    ]
+                else:
+                    # Select
+                    price = item_data["price"]
+                    service_charge = price * SERVICE_CHARGE_RATE
+                    sst = price * SST_RATE
+                    final_price = price + service_charge + sst
 
-                person["orders"].append({
-                    "name": item_name,
-                    "final_price": final_price
-                })
+                    person["orders"].append({
+                        "name": item_name,
+                        "final_price": final_price
+                    })
 
-                st.session_state.selected_items[person["name"]].append(item_name)
                 st.rerun()
 
-        index += 1
-
-    # ---------- SHOW SELECTED ITEMS ----------
+    # ---------- SELECTED ITEMS ----------
     st.markdown("---")
     st.subheader("Selected Items")
 
@@ -141,11 +146,10 @@ elif st.session_state.step == 2:
             st.session_state.step = 3
             st.rerun()
 
-# ---------- STEP 4 ----------
+# ---------- STEP 4 (RECEIPTS) ----------
 elif st.session_state.step == 3:
 
     st.header("🧾 Receipts")
-
     overall_total = 0
 
     for person in st.session_state.persons:
@@ -165,5 +169,3 @@ elif st.session_state.step == 3:
     if st.button("Start Over"):
         st.session_state.clear()
         st.rerun()
-
-
