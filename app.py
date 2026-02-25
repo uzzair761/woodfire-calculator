@@ -6,23 +6,24 @@ SST_RATE = 0.06
 
 # ---------- MENU WITH IMAGES ----------
 menu = {
-    "Smoked Burger (Mixed)": {
-        "price": 29.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/12/Artboard-7-2-1024x1024.png"
-    },
-    "Mushroom Burger": {
-        "price": 23.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Mushroom-Burger-1024x1024.webp"
-    },
-    "Brisket Burger": {
-        "price": 39.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Brisket-Burger-1024x1024.webp"
-    },
-    "Curly Fries": {
-        "price": 6.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Curly-Fries-1.webp"
-    },
+    "Smoked Burger (Mixed)": {
+        "price": 29.90,
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/12/Artboard-7-2-1024x1024.png"
+    },
+    "Mushroom Burger": {
+        "price": 23.90,
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Mushroom-Burger-1024x1024.webp"
+    },
+    "Brisket Burger": {
+        "price": 39.90,
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Brisket-Burger-1024x1024.webp"
+    },
+    "Curly Fries": {
+        "price": 6.90,
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Curly-Fries-1.webp"
+    },
 }
+
 
 st.title("🍔 Restaurant Order App")
 
@@ -172,3 +173,4 @@ elif st.session_state.step == 3:
 
 
 put the image inside the button
+
