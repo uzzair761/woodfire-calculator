@@ -4,26 +4,25 @@ import streamlit as st
 SERVICE_CHARGE_RATE = 0.08
 SST_RATE = 0.06
 
-# ---------- MENU WITH IMAGES ----------
+# ---------- MENU ----------
 menu = {
     "Smoked Burger (Mixed)": {
         "price": 29.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/12/Artboard-7-2-1024x1024.png"
+        "image": "https://via.placeholder.com/250?text=Mixed+Burger"
     },
     "Mushroom Burger": {
         "price": 23.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Mushroom-Burger-1024x1024.webp"
+        "image": "https://via.placeholder.com/250?text=Mushroom+Burger"
     },
     "Brisket Burger": {
         "price": 39.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Brisket-Burger-1024x1024.webp"
+        "image": "https://via.placeholder.com/250?text=Brisket+Burger"
     },
     "Curly Fries": {
         "price": 6.90,
-        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Curly-Fries-1.webp"
+        "image": "https://via.placeholder.com/250?text=Curly+Fries"
     },
 }
-
 
 st.title("🍔 Restaurant Order App")
 
@@ -37,7 +36,7 @@ if "persons" not in st.session_state:
 if "current_person" not in st.session_state:
     st.session_state.current_person = 0
 
-# ---------- STEP 1: HOW MANY PERSONS ----------
+# ---------- STEP 1 ----------
 if st.session_state.step == 0:
     num = st.number_input("How many Persons?", min_value=1, step=1)
 
@@ -46,7 +45,7 @@ if st.session_state.step == 0:
         st.session_state.step = 1
         st.rerun()
 
-# ---------- STEP 2: ENTER NAMES ----------
+# ---------- STEP 2 ----------
 elif st.session_state.step == 1:
     st.header("Enter Names")
 
@@ -57,27 +56,47 @@ elif st.session_state.step == 1:
         )
 
     if st.button("Start Ordering"):
-        # Ensure all names filled
         if all(p["name"].strip() != "" for p in st.session_state.persons):
             st.session_state.step = 2
             st.rerun()
         else:
             st.warning("Please enter all names.")
 
-# ---------- STEP 3: ORDERING ----------
+# ---------- STEP 3 ----------
 elif st.session_state.step == 2:
 
     person = st.session_state.persons[st.session_state.current_person]
     st.header(f"Ordering for {person['name']}")
 
+    if "selected_items" not in st.session_state:
+        st.session_state.selected_items = {}
+
+    if person["name"] not in st.session_state.selected_items:
+        st.session_state.selected_items[person["name"]] = []
+
     cols = st.columns(2)
-
     index = 0
-    for item_name, item_data in menu.items():
-        with cols[index % 2]:
-            st.image(item_data["image"], use_container_width=True)
 
-            if st.button(f"{item_name}\nRM {item_data['price']}", key=f"{person['name']}_{item_name}"):
+    for item_name, item_data in menu.items():
+
+        selected = item_name in st.session_state.selected_items[person["name"]]
+
+        with cols[index % 2]:
+
+            style = "opacity:0.4;" if selected else ""
+
+            clicked = st.markdown(
+                f"""
+                <div style="text-align:center;">
+                    <img src="{item_data['image']}" 
+                         style="width:100%; border-radius:12px; cursor:pointer; {style}">
+                    <p><b>{item_name}</b><br>RM {item_data['price']}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+            if st.button(f"Select {item_name}", key=f"{person['name']}_{item_name}"):
 
                 service_charge = item_data["price"] * SERVICE_CHARGE_RATE
                 sst = item_data["price"] * SST_RATE
@@ -88,7 +107,21 @@ elif st.session_state.step == 2:
                     "final_price": final_price
                 })
 
+                st.session_state.selected_items[person["name"]].append(item_name)
+                st.rerun()
+
         index += 1
+
+    # ---------- SHOW SELECTED ITEMS ----------
+    st.markdown("---")
+    st.subheader("Selected Items")
+
+    total = 0
+    for item in person["orders"]:
+        st.write(f"{item['name']} - RM {item['final_price']:.2f}")
+        total += item["final_price"]
+
+    st.write(f"**Current Total: RM {total:.2f}**")
 
     st.markdown("---")
 
@@ -108,7 +141,7 @@ elif st.session_state.step == 2:
             st.session_state.step = 3
             st.rerun()
 
-# ---------- STEP 4: RECEIPTS ----------
+# ---------- STEP 4 ----------
 elif st.session_state.step == 3:
 
     st.header("🧾 Receipts")
