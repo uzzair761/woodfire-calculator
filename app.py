@@ -26,11 +26,11 @@ for i in range(num_friends):
 for friend in friends:
     st.subheader(f"Orders for {friend['name']}")
     for item_name, price in menu.items():
-    qty = st.number_input(
-        f"{item_name} (RM {price})",
-        min_value=0,
-        step=1,
-        key=f"{friend['name']}_{item_name}"
+        qty = st.number_input(
+            f"{item_name} (RM {price})",
+            min_value=0,
+            step=1,
+            key=f"{friend['name']}_{item_name}"
     )
 
     if qty > 0:
@@ -64,6 +64,7 @@ for friend in friends:
 
 st.header("💰 Overall Total")
 st.write(f"**RM {overall_total:.2f}**")
+
 
 
 
