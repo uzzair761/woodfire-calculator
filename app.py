@@ -9,6 +9,7 @@ menu = {
     "Smoked Burger (Mixed)": 29.90,
     "Mushroom Burger": 23.90,
     "Brisket Burger": 39.90,
+    "Curly Fries": 6.90,
 }
 
 st.title("🍔 Restaurant Order Calculator")
@@ -32,10 +33,10 @@ for friend in friends:
             key=f"{friend['name']}_{item_name}"
         )
 
-        if qty > 0:
-            service_charge = round(price * SERVICE_CHARGE_RATE, 2)
-            sst = round(price * SST_RATE, 2)
-            final_price = round(price + service_charge + sst, 2)
+        service_charge = price * SERVICE_CHARGE_RATE 
+        subtotal_after_service = price + 
+        service_charge sst = subtotal_after_service * SST_RATE 
+        final_price = subtotal_after_service + sst
 
             friend['orders'].append({
                 "name": item_name,
@@ -63,5 +64,6 @@ for friend in friends:
 
 st.header("💰 Overall Total")
 st.write(f"**RM {overall_total:.2f}**")
+
 
 
