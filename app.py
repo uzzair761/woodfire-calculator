@@ -34,7 +34,7 @@ for friend in friends:
         )
 
         service_charge = price * SERVICE_CHARGE_RATE
-        sst = price * SST_RATE,
+        sst = price * SST_RATE
         final_price = price + service_charge + sst
 
         friend['orders'].append({
@@ -63,6 +63,7 @@ for friend in friends:
 
 st.header("💰 Overall Total")
 st.write(f"**RM {overall_total:.2f}**")
+
 
 
 
