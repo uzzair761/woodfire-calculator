@@ -4,24 +4,26 @@ import streamlit as st
 SERVICE_CHARGE_RATE = 0.08
 SST_RATE = 0.06
 
-# ---------- MENU ----------
+# ---------- MENU WITH IMAGES ----------
 menu = {
     "Smoked Burger (Mixed)": {
         "price": 29.90,
-        "image": "https://via.placeholder.com/250?text=Mixed+Burger"
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/12/Artboard-7-2-1024x1024.png"
     },
     "Mushroom Burger": {
         "price": 23.90,
-        "image": "https://via.placeholder.com/250?text=Mushroom+Burger"
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Mushroom-Burger-1024x1024.webp"
     },
     "Brisket Burger": {
         "price": 39.90,
-        "image": "https://via.placeholder.com/250?text=Brisket+Burger"
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Brisket-Burger-1024x1024.webp"
     },
     "Curly Fries": {
         "price": 6.90,
-        "image": "https://via.placeholder.com/250?text=Curly+Fries"
+        "image": "https://woodfire.com.my/wp-content/uploads/2024/11/Curly-Fries-1.webp"
     },
+}
+
 }
 
 st.title("🍔 Restaurant Order App")
@@ -165,3 +167,4 @@ elif st.session_state.step == 3:
     if st.button("Start Over"):
         st.session_state.clear()
         st.rerun()
+
