@@ -1,17 +1,5 @@
 import streamlit as st
 
-# ---------- AUTOPLAY VIDEO ----------
-video_url = "https://www.w3schools.com/html/mov_bbb.mp4"  # replace with your own video
-
-st.markdown(
-    f"""
-    <video width="100%" autoplay muted loop playsinline>
-        <source src="{video_url}" type="video/mp4">
-    </video>
-    """,
-    unsafe_allow_html=True
-)
-
 # ---------- TAX SETTINGS ----------
 SERVICE_CHARGE_RATE = 0.08
 SST_RATE = 0.06
@@ -113,3 +101,4 @@ for friend in friends:
 
 st.header("💰 Overall Total")
 st.write(f"**RM {overall_total:.2f}**")
+
