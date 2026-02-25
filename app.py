@@ -24,8 +24,6 @@ menu = {
     },
 }
 
-}
-
 st.title("🍔 Restaurant Order App")
 
 # ---------- SESSION STATE ----------
@@ -167,4 +165,5 @@ elif st.session_state.step == 3:
     if st.button("Start Over"):
         st.session_state.clear()
         st.rerun()
+
 
